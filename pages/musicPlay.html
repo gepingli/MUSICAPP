@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,12 +15,13 @@
     </script>
     <title>Document</title>
 </head>
+
 <body id="main">
     <header id="header">
         <a class="lnr lnr-left" href="#"></a>
         <span class="nameAndsinger">
-            <div class="songName">华年</div>
-            <div class="lnr lnr-arrow singerName">陆先生乐队</div>
+            <div class="songName"></div>
+            <div class="lnr lnr-arrow singerName"></div>
         </span>
         <span class="lnr lnr-show"></span>
     </header>
@@ -32,13 +34,13 @@
             <a class="lnr lnr-icon4" href="#"></a>
         </div>
         <div class="bar">
-            <span class="songTimeStarted">1.20</span>
+            <span class="songTimeStarted">0</span>
             <div class="wai">
                 <div id="box"></div>
                 <div class="line"></div>
                 <div class="line2"></div>
             </div>
-            <span class="songTimeEnd">3.40</span>
+            <span class="songTimeEnd"></span>
         </div>
         <div class="controller">
             <span class="lnr lnr-1"></span>
@@ -49,18 +51,15 @@
         </div>
     </footer>
     <script src="../assets/js/moveBar.js"></script>
+    <script src="../common/js/jquery-1.11.3.min.js"></script>
     <script>
         //用于固定页面大小
         var deviceHeight = document.documentElement.clientHeight;
         document.getElementById("main").style.height = deviceHeight + 'px';
         console.log(document.getElementById("main").style.height);
 
-
-        //进度条
-        var oDiv = document.getElementById('box');
-        drag(oDiv,function (v) {
-            console.log(v);
-        });
+        musicPlay('music1');
     </script>
 </body>
+
 </html>
