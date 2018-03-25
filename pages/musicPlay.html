@@ -14,9 +14,53 @@
     </script>
     <title>Document</title>
 </head>
-<body>
+<body id="main">
     <header id="header">
-
+        <a class="lnr lnr-left" href="#"></a>
+        <span class="nameAndsinger">
+            <div class="songName">华年</div>
+            <div class="lnr lnr-arrow singerName">陆先生乐队</div>
+        </span>
+        <span class="lnr lnr-show"></span>
     </header>
+    <section></section>
+    <footer>
+        <div class="icons">
+            <a class="lnr lnr-icon1" href="#"></a>
+            <a class="lnr lnr-icon2" href="#"></a>
+            <a class="lnr lnr-icon3" href="#"></a>
+            <a class="lnr lnr-icon4" href="#"></a>
+        </div>
+        <div class="bar">
+            <span class="songTimeStarted">1.20</span>
+            <div class="wai">
+                <div id="box"></div>
+                <div class="line"></div>
+                <div class="line2"></div>
+            </div>
+            <span class="songTimeEnd">3.40</span>
+        </div>
+        <div class="controller">
+            <span class="lnr lnr-1"></span>
+            <span class="lnr lnr-2"></span>
+            <span class="lnr lnr-3"></span>
+            <span class="lnr lnr-4"></span>
+            <span class="lnr lnr-5"></span>
+        </div>
+    </footer>
+    <script src="../assets/js/moveBar.js"></script>
+    <script>
+        //用于固定页面大小
+        var deviceHeight = document.documentElement.clientHeight;
+        document.getElementById("main").style.height = deviceHeight + 'px';
+        console.log(document.getElementById("main").style.height);
+
+
+        //进度条
+        var oDiv = document.getElementById('box');
+        drag(oDiv,function (v) {
+            console.log(v);
+        });
+    </script>
 </body>
 </html>

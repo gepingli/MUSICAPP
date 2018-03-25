@@ -1,0 +1,200 @@
+/* body */
+body {
+    display: flex;
+    flex-direction: column;
+}
+section {
+    flex:1;
+}
+a {
+    text-decoration: none;
+    color:black;
+}
+
+
+
+
+
+
+/* header部分 */
+#header {
+    height: .8rem;
+    padding: 0 .2rem;
+    border-bottom: 1px solid #766d64;
+    display: flex;
+    justify-content: space-between;
+}
+#header .lnr-left{
+    display: inline-block;
+    text-decoration: none;
+    line-height: .8rem;
+}
+#header .lnr-left::before {
+    vertical-align: top;
+    font-size: .5rem;
+    content: "\e875";
+}
+#header .lnr-show{
+    line-height: .8rem;
+}
+#header .lnr-show::before {
+    vertical-align: top;
+    font-size: .5rem;
+    content: "\e87e";
+}
+#header .nameAndsinger{
+    line-height: .8rem;
+}
+#header .nameAndsinger{
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+#header .nameAndsinger div:nth-of-type(1){
+    line-height: .4rem;
+    font-size: .3rem;
+    flex: 1;
+}
+#header .nameAndsinger div:nth-of-type(2){
+    line-height: .3rem;
+    font-size: .2rem;
+    flex: 1;
+    overflow: hidden;    
+}
+#header .lnr-arrow::after {
+    content: "\e876";
+    color: #766d64;
+}
+
+/* footer */
+footer {
+    height: 3.3rem;
+    display: flex;
+    flex-direction: column;
+}
+footer a{
+    display: inline-block;
+    height: 100%;
+    flex:1;
+}
+footer .icons {
+    display: flex;
+    flex-direction: row;
+    padding: 0 .8rem;
+}
+footer .icons .lnr {
+    font-size: .4rem;
+    text-align: center;
+}
+footer .lnr-icon1::before {
+    content: "\e813";
+}
+footer .lnr-icon2::before {
+    content: "\e865";
+}
+footer .lnr-icon3::before {
+    content: "\e865";
+}
+footer .lnr-icon4::before {
+    content: "\e872";
+}
+
+
+footer .bar{
+    flex:1;
+}
+
+
+footer .controller {
+    height: 1.6rem;
+    display: flex;
+    flex-direction: row;
+    vertical-align: top;
+}
+footer .controller .lnr{
+    flex:1;
+    text-align: center;
+}
+footer .controller .lnr-1{
+    flex: 0.8;
+    margin-right: .4rem;
+}
+footer .controller .lnr-5{
+    flex: 0.8;
+    margin-left: .4rem;
+}
+footer .controller .lnr::before{
+    display: inline-block;
+    line-height: 1.6rem;
+}
+footer .lnr-1::before{
+    content: "\e861";
+    font-size: .4rem;
+}
+footer .lnr-2::before{
+    content: "\e889";
+    font-size: .6rem;
+}
+footer .lnr-3::before{
+    content: "\e881";
+    font-size: .9rem;
+}
+footer .lnr-4::before{
+    content: "\e88a";
+    font-size: .6rem;
+}
+footer .lnr-5::before{
+    content: "\e89b";
+    font-size: .4rem;
+}
+
+
+
+/* ！！！进度条 */
+.bar {
+    line-height: .7rem;
+    text-align: center;
+}
+.bar span {
+    display: inline-block;
+    height: .3rem;
+    text-align: center;
+    font-size: .25rem;
+}
+#box {
+    box-sizing: border-box;
+    width: .3rem;
+    height: .3rem;
+    position: absolute;
+    background: red;
+    border: .1rem solid gray;
+    border-radius: .3rem;
+    cursor: pointer;
+    z-index: 10;
+}
+.wai {
+    display: inline-block;
+    width: 5.5rem;
+    height: .3rem;
+    position: relative;
+}
+.line {
+    width: 5.5rem;
+    height: .06rem;
+    background: gray;
+    position: absolute;
+    margin-top: -0.03rem;
+    top: 50%;
+    z-index: 1;
+    border-radius: 4px;
+}
+.line2 {
+    width: 0px;
+    height: .06rem;
+    background: orange;
+    z-index: 2;
+    position: absolute;
+    margin-top: -0.03rem;
+    top: 50%;
+    border-radius: 4px 0 0 4px;
+}
