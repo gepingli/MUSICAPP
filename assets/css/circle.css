@@ -1,0 +1,19 @@
+section {
+    text-align: center;
+}
+
+#circle {
+    display: inline-block;
+    box-sizing: content-box;
+    border: .27rem solid #8d8f81;
+    width: 5.7rem;
+    height: 5.7rem;
+    margin-top: 10%;
+    border-radius: 50%;
+    background-size: 100% 100%;
+}
+
+#circle img {
+    width: 5.7rem;
+    height: 5.7rem;
+}

@@ -1,28 +1,28 @@
 {
     "music1": {
         "index": 1,
-        "bk": "../assets/images/musicPlay1.png",
+        "bk": "../assets/images/musicPlay1.jpg",
         "songName": "可乐",
         "singer": "赵紫骅",
         "musicPosition": "../server/media/music1.mp3"
     },
     "music2": {
         "index": 2,
-        "bk": "../assets/images/musicPlay2.png",
+        "bk": "../assets/images/musicPlay2.jpg",
         "songName": "辉针的小人族",
         "singer": "Assaultdoor",
         "musicPosition": "../server/media/musi2.mp3"
     },
     "music3": {
         "index": 3,
-        "bk": "../assets/images/musicPlay3.png",
+        "bk": "../assets/images/musicPlay3.jpg",
         "songName": "A Turtle Heart ",
         "singer": "Mili",
         "musicPosition": "../sevser/media/music3.mp3"
     },
     "music4": {
         "index": 4,
-        "bk": "../assets/images/musicPlay4.png",
+        "bk": "../assets/images/musicPlay4.jpg",
         "songName": "月と花束(TV Size) - 试听版",
         "singer": "さユり",
         "musicPosition": "../server/media/music4.mp3"
