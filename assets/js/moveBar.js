@@ -17,14 +17,19 @@ var musicPlay = (function() {
         document.getElementsByClassName('line2')[0].style.width = '0px';
         document.getElementsByClassName('songTimeEnd')[0].innerHTML = '0:00';
         oNum.oMusic = new Audio(oNum.oObj[str].musicPosition);
-        oNum.state = 1;
         oNum.oMusic.oncanplay = function() {
-            oNum.oMusic.play();
-            oNum.oTime = parseInt(oNum.oMusic.duration);
-            setBeforeTime('songTimeEnd', 'end');
-            oNum.perTime = parseFloat(document.getElementsByClassName('wai')[0].clientWidth) / (10 * oNum.oTime);
-            oNum.oDiv.autoPlay(oNum.oTime);
+            oNum.state = 1;
         }
+        var iTime = setInterval(function() {
+            if (oNum.state == 1) {
+                oNum.oTime = parseInt(oNum.oMusic.duration);
+                setBeforeTime('songTimeEnd', 'end');
+                oNum.perTime = parseFloat(document.getElementsByClassName('wai')[0].clientWidth) / (10 * oNum.oTime);
+                oNum.oDiv.autoPlay(oNum.oTime);
+                oNum.oMusic.play();
+                clearInterval(iTime);
+            }
+        }, 100);
         document.getElementsByClassName('songName')[0].innerHTML = oNum.oObj[str].songName;
         document.getElementsByClassName('singerName')[0].innerHTML = oNum.oObj[str].singer;
         document.getElementById('circle').style.background = 'url(' + oNum.oObj[str].bk + ')';
@@ -107,7 +112,6 @@ var musicPlay = (function() {
                     oNum.oMusic.currentTime = oNum.oTime * percent;
                     //console.log(oNum.oMusic.currentTime);
                     clearInterval(oNum.timeNum);
-                    oNum.timeNum = null;
                     oNum.oDiv.autoPlay(oNum.oTime);
                     console.log(oNum.timeNum);
                 }
@@ -122,12 +126,13 @@ var musicPlay = (function() {
             var oW = document.getElementsByClassName('wai')[0];
             oNum.timeNum = setInterval(function() {
                 oLi2.style.width = parseFloat(oLi2.style.width) + oNum.perTime + 'px';
-                console.log(oLi2.style.width + '' + oNum.perTime);
-                console.log(oNum.timeNum);
+                // console.log(oLi2.style.width + '' + oNum.perTime);
+                //console.log(oNum.timeNum);
                 oNum.oDiv.style.left = parseFloat(oLi2.style.width) + 'px';
                 console.log(oNum.oDiv.style.left);
                 setBeforeTime('songTimeStarted', 'start');
-                if (parseFloat(oNum.oDiv.style.left) >= parseFloat(oW.clientWidth)) {
+                //  console.log(oNum.oMusic.currentTime + '   ' + oNum.oTime);
+                if (parseInt(oNum.oMusic.currentTime) == oNum.oTime) {
                     oNum.oMusic.currentTime = 0;
                     oNum.oDiv.style.left = -7.5 + 'px';
                     oLi2.style.width = 0 + 'px';
@@ -157,6 +162,21 @@ var musicPlay = (function() {
         });
     }
 
+    //暂停旋转
+    document.getElementsByClassName('lnr-3')[0].onclick = function(ev) {
+        console.log(1);
+        ev.stopPropagation();
+        if (oNum.state == 1) {
+            oNum.oMusic.pause();
+            clearInterval(oNum.timeNum);
+            // rotate(document.getElementById('cirle')).end();
+            oNum.state = 0;
+        } else {
+            oNum.oMusic.play();
+            oNum.oDiv.autoPlay(oNum.oTime);
+            oNum.state = 1;
+        }
+    }
     var init = function(str) {
         setoNum();
         originMusic(str);
