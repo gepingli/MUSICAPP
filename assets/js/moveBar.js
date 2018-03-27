@@ -7,9 +7,12 @@ var musicPlay = (function() {
         oNum.oDiv = document.getElementById('box');
         oNum.oMusic = null;
         oNum.state = 0;
+        oNum.oState = 1;
         oNum.timeNum = null;
         oNum.oTime = 0;
         oNum.perTime = 0;
+        oNum.oDrug = 0;
+        oNum.index = 0;
     };
     //设置页面
     var setHTML = function(str) {
@@ -17,6 +20,7 @@ var musicPlay = (function() {
         document.getElementsByClassName('line2')[0].style.width = '0px';
         document.getElementsByClassName('songTimeEnd')[0].innerHTML = '0:00';
         oNum.oMusic = new Audio(oNum.oObj[str].musicPosition);
+        console.log(oNum.oMusic);
         oNum.oMusic.oncanplay = function() {
             oNum.state = 1;
         }
@@ -77,9 +81,8 @@ var musicPlay = (function() {
 
 
                 document.getElementsByClassName('wai')[0].ontouchmove = function(ev) {
+                        oNum.oDrug = 1;
                         ev = ev || event;
-
-
                         var l = ev.touches[0].clientX - x;
                         var t = ev.touches[0].clientY - y;
                         if (l < 0) {
@@ -97,23 +100,22 @@ var musicPlay = (function() {
                         }
                         obj.style.left = l + 'px';
                         obj.style.top = t + 'px';
-
                         change(obj, callback);
+                        console.log(1);
                     }
                     //释放
                 document.getElementsByClassName('wai')[0].ontouchend = function() {
                     this.onmousemove = null;
                     this.onmouseup = null;
-                    console.log('stop');
+                    oNum.oDrug = 0;
                     var oLi2 = document.getElementsByClassName('line2')[0];
                     oLi2.style.width = obj.style.left;
                     var percent = obj.offsetLeft / (obj.parentNode.clientWidth - obj.offsetWidth);
-                    //console.log(percent);
                     oNum.oMusic.currentTime = oNum.oTime * percent;
-                    //console.log(oNum.oMusic.currentTime);
-                    clearInterval(oNum.timeNum);
-                    oNum.oDiv.autoPlay(oNum.oTime);
-                    console.log(oNum.timeNum);
+                    if (oNum.oState == 1) {
+                        clearInterval(oNum.timeNum);
+                        oNum.oDiv.autoPlay(oNum.oTime);
+                    }
                 }
                 return false;
             }
@@ -129,8 +131,10 @@ var musicPlay = (function() {
                 // console.log(oLi2.style.width + '' + oNum.perTime);
                 //console.log(oNum.timeNum);
                 oNum.oDiv.style.left = parseFloat(oLi2.style.width) + 'px';
-                console.log(oNum.oDiv.style.left);
-                setBeforeTime('songTimeStarted', 'start');
+                //console.log(oNum.oDiv.style.left);
+                if (oNum.oDrug != 1) {
+                    setBeforeTime('songTimeStarted', 'start');
+                }
                 //  console.log(oNum.oMusic.currentTime + '   ' + oNum.oTime);
                 if (parseInt(oNum.oMusic.currentTime) == oNum.oTime) {
                     oNum.oMusic.currentTime = 0;
@@ -148,35 +152,86 @@ var musicPlay = (function() {
     //获取后台数据
 
     var originMusic = function(str) {
-        $.ajax({
-            type: "GET",
-            url: "../server/list.json",
-            dataType: "json",
-            success: function(data) {
-                oNum.oObj = data;
-                setHTML(str);
-                drag(oNum.oDiv, function(v) {
-                    //  console.log(v);
-                });
+            $.ajax({
+                type: "GET",
+                url: "../server/list.json",
+                dataType: "json",
+                success: function(data) {
+                    oNum.oObj = data;
+                    setHTML(str);
+                    drag(oNum.oDiv, function(v) {
+                        var playedTime = parseInt(oNum.oTime * v) % 60;
+                        if (playedTime < 10) {
+                            playedTime = '0' + playedTime;
+                        }
+                        document.getElementsByClassName('songTimeStarted')[0].innerHTML = parseInt(oNum.oTime * v / 60) + ':' + playedTime;
+                    });
+                    circle(document.getElementsByClassName('lnr-3')[0]);
+                    rotate(document.getElementById('circle'));
+                    document.getElementById('circle').start();
+                }
+            });
+        }
+        //旋转
+    var rotate = function(obj) {
+            obj.timNum = 0;
+            obj.style.transform = "rotate(0deg)";
+            obj.start = function() {
+                obj.timNum = setInterval(function() {
+                    obj.angle = parseInt(obj.style.transform.slice(7, -4)) + 1;
+                    if (obj.angle == 360) {
+                        obj.angle = 0;
+                    }
+                    obj.style.transform = "rotate(" + obj.angle + "deg)";
+                }, 30)
             }
-        });
-    }
-
-    //暂停旋转
-    document.getElementsByClassName('lnr-3')[0].onclick = function(ev) {
-        console.log(1);
-        ev.stopPropagation();
-        if (oNum.state == 1) {
-            oNum.oMusic.pause();
-            clearInterval(oNum.timeNum);
-            // rotate(document.getElementById('cirle')).end();
-            oNum.state = 0;
-        } else {
-            oNum.oMusic.play();
-            oNum.oDiv.autoPlay(oNum.oTime);
-            oNum.state = 1;
+            obj.end = function() {
+                clearInterval(obj.timNum);
+            }
+        }
+        //暂停旋转
+    var circle = function(obj) {
+        obj.ontouchstart = function(ev) {
+            console.log('  ' + oNum.state);
+            console.log(this);
+            ev.cancelBubble = true;
+            ev.stopPropagation();
+            if (oNum.oState == 1) {
+                oNum.oMusic.pause();
+                clearInterval(oNum.timeNum);
+                // rotate(document.getElementById('cirle')).end();
+                oNum.oState = 0;
+                document.getElementById('circle').end();
+            } else if (oNum.oState == 0) {
+                oNum.oMusic.play();
+                oNum.oDiv.autoPlay(oNum.oTime);
+                oNum.oState = 1;
+                document.getElementById('circle').start();
+            }
         }
     }
+    var resetMusic = function() {
+        clearInterval(oNum.timeNum);
+        oNum.oMusic.pause();
+        oNum.state = 0;
+        oNum.oState = 1;
+        oNum.oTime = 0;
+        oNum.perTime = 0;
+        oNum.oDrug = 0;
+    }
+    document.getElementsByClassName('lnr-4')[0].ontouchstart = function() {
+        resetMusic();
+        setHTML('music' + ((oNum.index + 1) % 4 + 1));
+        oNum.index++;
+    }
+    document.getElementsByClassName('lnr-2')[0].ontouchstart = function() {
+        resetMusic();
+        console.log(((oNum.index + 3) % 4 + 1));
+        console.log(oNum.index);
+        setHTML('music' + ((oNum.index + 3) % 4 + 1));
+        oNum.index += 3;
+    }
+
     var init = function(str) {
         setoNum();
         originMusic(str);
