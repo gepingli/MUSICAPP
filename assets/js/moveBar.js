@@ -34,6 +34,7 @@ var musicPlay = (function() {
                 clearInterval(iTime);
             }
         }, 100);
+        document.getElementById('circle').start();
         document.getElementsByClassName('songName')[0].innerHTML = oNum.oObj[str].songName;
         document.getElementsByClassName('singerName')[0].innerHTML = oNum.oObj[str].singer;
         document.getElementById('circle').style.background = 'url(' + oNum.oObj[str].bk + ')';
@@ -167,26 +168,32 @@ var musicPlay = (function() {
                         document.getElementsByClassName('songTimeStarted')[0].innerHTML = parseInt(oNum.oTime * v / 60) + ':' + playedTime;
                     });
                     circle(document.getElementsByClassName('lnr-3')[0]);
-                    rotate(document.getElementById('circle'));
-                    document.getElementById('circle').start();
                 }
             });
         }
         //旋转
     var rotate = function(obj) {
             obj.timNum = 0;
+            obj.rotateState = 0;
             obj.style.transform = "rotate(0deg)";
             obj.start = function() {
-                obj.timNum = setInterval(function() {
-                    obj.angle = parseInt(obj.style.transform.slice(7, -4)) + 1;
-                    if (obj.angle == 360) {
-                        obj.angle = 0;
-                    }
-                    obj.style.transform = "rotate(" + obj.angle + "deg)";
-                }, 30)
+                if (obj.rotateState == 0) {
+                    obj.timNum = setInterval(function() {
+                        obj.angle = parseInt(obj.style.transform.slice(7, -4)) + 1;
+                        if (obj.angle == 360) {
+                            obj.angle = 0;
+                        }
+                        obj.style.transform = "rotate(" + obj.angle + "deg)";
+                    }, 30)
+                    console.log(obj.rotateState);
+                    obj.rotateState = 1;
+
+                }
             }
             obj.end = function() {
                 clearInterval(obj.timNum);
+                console.log('stop');
+                obj.rotateState = 0;
             }
         }
         //暂停旋转
@@ -223,6 +230,7 @@ var musicPlay = (function() {
         resetMusic();
         setHTML('music' + ((oNum.index + 1) % 4 + 1));
         oNum.index++;
+        document.getElementById('circle').start();
     }
     document.getElementsByClassName('lnr-2')[0].ontouchstart = function() {
         resetMusic();
@@ -230,11 +238,13 @@ var musicPlay = (function() {
         console.log(oNum.index);
         setHTML('music' + ((oNum.index + 3) % 4 + 1));
         oNum.index += 3;
+        document.getElementById('circle').start();
     }
 
     var init = function(str) {
         setoNum();
         originMusic(str);
+        rotate(document.getElementById('circle'));
     }
     return init;
 })();
