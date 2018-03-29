@@ -1,0 +1,126 @@
+/* 轮播图 */
+
+#banner {
+    height: 2.9rem;
+    background-color: red;
+    width: 100%;
+}
+
+
+/* 选项卡 */
+
+.nav {
+    height: 1.7rem;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    margin-top: .3rem;
+}
+
+.nav div {
+    font-size: .2rem;
+    background: url(../images/icon/listicon1.jpg) center 0 no-repeat;
+    background-size: 1rem;
+    height: 1.4rem;
+    width: 1.05rem;
+    flex: 1;
+    position: relative;
+}
+
+.nav div span {
+    display: block;
+    width: 100%;
+    text-align: center;
+    position: absolute;
+    bottom: 0;
+}
+
+
+/* 内容-只有图 */
+
+
+/* 名称 */
+
+.list-name {
+    height: .33rem;
+    border-left: 2px solid #bb9b9c;
+    font-size: .3rem;
+    padding-left: .2rem;
+}
+
+.lnr {
+    color: #000;
+    height: .33rem;
+    width: .33rem;
+}
+
+.list-name .lnr::before {
+    content: "\e876";
+    font-size: .3rem;
+    margin-left: .15rem;
+}
+
+
+/* 内容 */
+
+.pic-wrapper {
+    margin-top: .25rem;
+    margin-bottom: .4rem;
+}
+
+.pic-wrapper .aLine {
+    display: flex;
+    justify-content: space-between;
+}
+
+.pic-wrapper a {
+    display: inline-block;
+    width: 32%;
+    height: 3.15rem;
+    font-size: .24rem;
+    text-decoration: none;
+    color: #000;
+}
+
+.pic-wrapper .aMusic img {
+    width: 100%;
+}
+
+.pic-wrapper .aMusic span {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    padding: .1rem .1rem 0;
+}
+
+.singer {
+    color: #ccc;
+}
+
+
+/* 内容-图文 */
+
+.listtype-word .aColum {
+    margin-top: .3rem;
+    box-sizing: border-box;
+    padding-left: .25rem;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.listtype-word .aColum p {
+    width: 4rem;
+    font-size: .27rem;
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+}
+
+.listtype-word .aColum p .readNumber {
+    color: #ccc;
+}
+
+.listtype-word .aColum img {
+    height: 1.64rem;
+}
