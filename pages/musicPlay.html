@@ -19,7 +19,7 @@
 
 <body id="main">
     <header id="header">
-        <a class="lnr lnr-left" href="#"></a>
+        <a class="lnr lnr-left" href="../index.html"></a>
         <span class="nameAndsinger">
             <div class="songName"></div>
             <div class="lnr lnr-arrow singerName"></div>
@@ -62,7 +62,8 @@
         var deviceHeight = document.documentElement.clientHeight;
         document.getElementById("main").style.height = deviceHeight + 'px';
         console.log(document.getElementById("main").style.height);
-        musicPlay('music1');
+        var musicIndex = window.location.href.split('=')[1];
+        musicPlay(musicIndex);
     </script>
 </body>
 

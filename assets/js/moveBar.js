@@ -13,10 +13,13 @@ var musicPlay = (function() {
         oNum.perTime = 0;
         oNum.oDrug = 0;
         oNum.index = 0;
+        oNum.loadingReady = 0;
+        oNum.songNum = 0;
     };
     //设置页面
     var setHTML = function(str) {
         clearInterval(oNum.timeNum);
+        document.getElementById('circle').style.transform = "rotate(0deg)";
         document.getElementsByClassName('line2')[0].style.width = '0px';
         document.getElementsByClassName('songTimeEnd')[0].innerHTML = '0:00';
         oNum.oMusic = new Audio(oNum.oObj[str].musicPosition);
@@ -31,10 +34,11 @@ var musicPlay = (function() {
                 oNum.perTime = parseFloat(document.getElementsByClassName('wai')[0].clientWidth) / (10 * oNum.oTime);
                 oNum.oDiv.autoPlay(oNum.oTime);
                 oNum.oMusic.play();
+                document.getElementById('circle').start();
                 clearInterval(iTime);
+                oNum.loadingReady = 1;
             }
-        }, 100);
-        document.getElementById('circle').start();
+        }, 500);
         document.getElementsByClassName('songName')[0].innerHTML = oNum.oObj[str].songName;
         document.getElementsByClassName('singerName')[0].innerHTML = oNum.oObj[str].singer;
         document.getElementById('circle').style.background = 'url(' + oNum.oObj[str].bk + ')';
@@ -148,6 +152,22 @@ var musicPlay = (function() {
         }
     }
 
+    //获取json的长度
+
+    function getJsonLength(jsonData) {
+
+        var jsonLength = 0;
+
+        for (var item in jsonData) {
+
+            jsonLength++;
+
+        }
+
+        return jsonLength;
+
+    }
+
 
 
     //获取后台数据
@@ -160,6 +180,7 @@ var musicPlay = (function() {
                 success: function(data) {
                     oNum.oObj = data;
                     setHTML(str);
+                    oNum.songNum = getJsonLength(data);
                     drag(oNum.oDiv, function(v) {
                         var playedTime = parseInt(oNum.oTime * v) % 60;
                         if (playedTime < 10) {
@@ -184,7 +205,7 @@ var musicPlay = (function() {
                             obj.angle = 0;
                         }
                         obj.style.transform = "rotate(" + obj.angle + "deg)";
-                    }, 30)
+                    }, 50)
                     console.log(obj.rotateState);
                     obj.rotateState = 1;
 
@@ -227,22 +248,27 @@ var musicPlay = (function() {
         oNum.oDrug = 0;
     }
     document.getElementsByClassName('lnr-4')[0].ontouchstart = function() {
-        resetMusic();
-        setHTML('music' + ((oNum.index + 1) % 4 + 1));
-        oNum.index++;
-        document.getElementById('circle').start();
+        if (oNum.loadingReady == 1) {
+            oNum.loadingReady = 0;
+            resetMusic();
+            setHTML('music' + ((oNum.index + 1) % oNum.songNum + 1));
+            oNum.index = (oNum.index + 1) % oNum.songNum;
+            document.getElementById('circle').start();
+        }
     }
     document.getElementsByClassName('lnr-2')[0].ontouchstart = function() {
-        resetMusic();
-        console.log(((oNum.index + 3) % 4 + 1));
-        console.log(oNum.index);
-        setHTML('music' + ((oNum.index + 3) % 4 + 1));
-        oNum.index += 3;
-        document.getElementById('circle').start();
+        if (oNum.loadingReady == 1) {
+            oNum.loadingReady = 0;
+            resetMusic();
+            setHTML('music' + ((oNum.index + oNum.songNum - 1) % oNum.songNum + 1));
+            oNum.index = (oNum.index + oNum.songNum - 1) % oNum.songNum;
+            document.getElementById('circle').start();
+        }
     }
 
     var init = function(str) {
         setoNum();
+        oNum.index = parseInt(str.slice(5)) - 1;
         originMusic(str);
         rotate(document.getElementById('circle'));
     }
